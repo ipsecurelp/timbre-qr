@@ -8,7 +8,7 @@
 <style>
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:linear-gradient(135deg,#050505,#111827);
   color:white;
   min-height:100vh;
@@ -21,8 +21,8 @@ body{
 .panel{
   width:100%;
   max-width:430px;
-  background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);
   border-radius:24px;
   padding:26px;
   box-shadow:0 20px 45px rgba(0,0,0,.45);
@@ -36,33 +36,28 @@ body{
   display:block;
 }
 
-h1{
-  margin:8px 0 5px;
-  font-size:32px;
-}
+h1{margin:8px 0 5px;font-size:32px}
+.subtitulo{color:#cbd5e1;margin-bottom:16px}
 
-.subtitulo{
-  color:#cbd5e1;
-  margin-bottom:25px;
+#estado{
+  background:rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:20px;
+  font-size:15px;
+  color:#e5e7eb;
 }
 
 .depto{
-  background:rgba(255,255,255,0.09);
+  background:rgba(255,255,255,.09);
   border-radius:18px;
   padding:18px;
   margin-bottom:16px;
   text-align:left;
 }
 
-.depto h2{
-  margin:0 0 6px;
-  font-size:22px;
-}
-
-.depto p{
-  margin:0 0 14px;
-  color:#cbd5e1;
-}
+.depto h2{margin:0 0 6px;font-size:22px}
+.depto p{margin:0 0 14px;color:#cbd5e1}
 
 .btn{
   display:block;
@@ -77,8 +72,10 @@ h1{
   background:#22c55e;
 }
 
-.btn:active{
-  transform:scale(.98);
+.btn.bloqueado{
+  background:#64748b;
+  pointer-events:none;
+  opacity:.55;
 }
 
 .footer{
@@ -98,10 +95,12 @@ h1{
   <h1>Timbre QR</h1>
   <div class="subtitulo">Seleccione el departamento</div>
 
+  <div id="estado">📍 Verificando ubicación...</div>
+
   <div class="depto">
     <h2>Departamento 1</h2>
     <p>TEST PANTALLA</p>
-    <a class="btn" href="https://1325.3cx.cloud/testpantalla">
+    <a class="btn bloqueado" href="https://1325.3cx.cloud/testpantalla">
       📞 Llamar / Mensaje
     </a>
   </div>
@@ -109,7 +108,7 @@ h1{
   <div class="depto">
     <h2>Departamento 2</h2>
     <p>PRUEBA CEL 2</p>
-    <a class="btn" href="https://1325.3cx.cloud/pruebacel2">
+    <a class="btn bloqueado" href="https://1325.3cx.cloud/pruebacel2">
       📞 Llamar / Mensaje
     </a>
   </div>
@@ -119,6 +118,75 @@ h1{
   </div>
 
 </div>
+
+<script>
+const edificioLat = -34.947151;
+const edificioLon = -58.054534;
+const radioPermitido = 10;
+
+function distanciaMetros(lat1, lon1, lat2, lon2){
+  const R = 6371000;
+  const rad = Math.PI / 180;
+  const dLat = (lat2-lat1) * rad;
+  const dLon = (lon2-lon1) * rad;
+
+  const a =
+    Math.sin(dLat/2) ** 2 +
+    Math.cos(lat1*rad) *
+    Math.cos(lat2*rad) *
+    Math.sin(dLon/2) ** 2;
+
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function habilitarBotones(){
+  document.querySelectorAll(".btn").forEach(btn=>{
+    btn.classList.remove("bloqueado");
+  });
+}
+
+function validarUbicacion(){
+  const estado = document.getElementById("estado");
+
+  if(!navigator.geolocation){
+    estado.innerHTML = "❌ Este dispositivo no permite validar ubicación.";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const precision = pos.coords.accuracy;
+      const distancia = distanciaMetros(lat, lon, edificioLat, edificioLon);
+
+      if(distancia <= radioPermitido){
+        habilitarBotones();
+        estado.innerHTML =
+          "✅ Ubicación validada<br>" +
+          "📍 Distancia aproximada: " + distancia.toFixed(1) + " m<br>" +
+          "🎯 Precisión GPS: " + precision.toFixed(1) + " m";
+      }else{
+        estado.innerHTML =
+          "❌ Debe encontrarse frente al edificio para utilizar el timbre.<br>" +
+          "📍 Distancia aproximada: " + distancia.toFixed(1) + " m<br>" +
+          "🎯 Precisión GPS: " + precision.toFixed(1) + " m";
+      }
+    },
+    function(){
+      estado.innerHTML =
+        "❌ Debe permitir el acceso a la ubicación para utilizar el timbre.";
+    },
+    {
+      enableHighAccuracy:true,
+      timeout:10000,
+      maximumAge:0
+    }
+  );
+}
+
+window.onload = validarUbicacion;
+</script>
 
 </body>
 </html>
