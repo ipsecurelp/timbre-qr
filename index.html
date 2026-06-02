@@ -1,66 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Timbre QR</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 30px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timbre QR - LXT Seguridad</title>
 
-    .card {
-      max-width: 420px;
-      margin: auto;
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 18px;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#050505,#111827);
+  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
 
-    h1 {
-      margin-bottom: 5px;
-    }
+.panel{
+  width:100%;
+  max-width:430px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:24px;
+  padding:26px;
+  box-shadow:0 20px 45px rgba(0,0,0,.45);
+  text-align:center;
+}
 
-    p {
-      color: #cbd5e1;
-    }
+.logo{
+  width:100%;
+  max-width:310px;
+  margin:0 auto 18px;
+  display:block;
+}
 
-    .btn {
-      display: block;
-      background: #22c55e;
-      color: white;
-      text-decoration: none;
-      padding: 18px;
-      margin: 15px 0;
-      border-radius: 14px;
-      font-size: 22px;
-      font-weight: bold;
-    }
+h1{
+  margin:8px 0 5px;
+  font-size:32px;
+}
 
-    .footer {
-      margin-top: 25px;
-      font-size: 13px;
-      color: #94a3b8;
-    }
-  </style>
+.subtitulo{
+  color:#cbd5e1;
+  margin-bottom:25px;
+}
+
+.depto{
+  background:rgba(255,255,255,0.09);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:16px;
+  text-align:left;
+}
+
+.depto h2{
+  margin:0 0 6px;
+  font-size:22px;
+}
+
+.depto p{
+  margin:0 0 14px;
+  color:#cbd5e1;
+}
+
+.btn{
+  display:block;
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  text-align:center;
+  text-decoration:none;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  background:#22c55e;
+}
+
+.btn:active{
+  transform:scale(.98);
+}
+
+.footer{
+  margin-top:22px;
+  font-size:13px;
+  color:#94a3b8;
+}
+</style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>Timbre QR</h1>
-    <p>Seleccione el departamento</p>
 
-    <a class="btn" href="tel:+5492210000001">Depto 1</a>
-    <a class="btn" href="tel:+5492210000002">Depto 2</a>
-    <a class="btn" href="tel:+5492210000003">Depto 3</a>
+<div class="panel">
 
-    <div class="footer">
-      Sistema de prueba - LXT Seguridad
-    </div>
+  <img src="logo-lxt.png" alt="LXT Seguridad Electrónica" class="logo">
+
+  <h1>Timbre QR</h1>
+  <div class="subtitulo">Seleccione el departamento</div>
+
+  <div class="depto">
+    <h2>Departamento 1</h2>
+    <p>TEST PANTALLA</p>
+    <a class="btn" href="https://1325.3cx.cloud/testpantalla">
+      📞 Llamar / Mensaje
+    </a>
   </div>
+
+  <div class="depto">
+    <h2>Departamento 2</h2>
+    <p>PRUEBA CEL 2</p>
+    <a class="btn" href="https://1325.3cx.cloud/pruebacel2">
+      📞 Llamar / Mensaje
+    </a>
+  </div>
+
+  <div class="footer">
+    Sistema de prueba - LXT Seguridad Electrónica
+  </div>
+
+</div>
+
 </body>
 </html>
