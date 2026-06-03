@@ -3,85 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timbre QR - LXT Seguridad</title>
+<title>Portero Virtual LXT</title>
 
 <style>
+*{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#050505,#111827);
-  color:white;
+  background:#111;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:20px;
+  padding:14px;
 }
 
 .panel{
   width:100%;
-  max-width:430px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.15);
+  max-width:470px;
+  background:linear-gradient(135deg,#f2f2f2,#bfc3c7,#f7f7f7);
   border-radius:24px;
-  padding:26px;
-  box-shadow:0 20px 45px rgba(0,0,0,.45);
-  text-align:center;
+  padding:20px;
+  color:#111;
+  border:2px solid #777;
+  box-shadow:0 20px 45px rgba(0,0,0,.6), inset 0 0 45px rgba(255,255,255,.5);
 }
 
 .logo{
-  width:100%;
-  max-width:310px;
-  margin:0 auto 18px;
-  display:block;
+  text-align:center;
+  font-size:58px;
+  font-weight:900;
+  letter-spacing:-6px;
+  color:#777;
+  text-shadow:1px 1px 1px #fff, -1px -1px 1px #777;
+  margin-bottom:2px;
 }
 
-h1{margin:8px 0 5px;font-size:32px}
-.subtitulo{color:#cbd5e1;margin-bottom:16px}
+.marca{
+  text-align:center;
+  letter-spacing:8px;
+  font-size:13px;
+  margin-bottom:18px;
+}
 
-#estado{
-  background:rgba(255,255,255,.1);
-  border-radius:14px;
+.estado{
+  border:1px solid #555;
+  border-radius:12px;
   padding:12px;
-  margin-bottom:20px;
-  font-size:15px;
-  color:#e5e7eb;
+  margin-bottom:14px;
+  background:rgba(255,255,255,.35);
+  font-size:14px;
+  line-height:1.4;
 }
 
-.depto{
-  background:rgba(255,255,255,.09);
-  border-radius:18px;
+.ok{color:#0f7d32;font-weight:bold}
+.error{color:#b00020;font-weight:bold}
+
+.encargado{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
   padding:18px;
   margin-bottom:16px;
-  text-align:left;
+  border-radius:12px;
+  background:linear-gradient(#f6f6f6,#b7babd);
+  border:1px solid #555;
+  text-decoration:none;
+  color:#111;
+  box-shadow:inset 0 2px 3px #fff, 0 3px 8px rgba(0,0,0,.3);
 }
 
-.depto h2{margin:0 0 6px;font-size:22px}
-.depto p{margin:0 0 14px;color:#cbd5e1}
+.encargado strong{
+  font-size:30px;
+}
+
+.encargado span{
+  font-size:14px;
+}
+
+.call{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:radial-gradient(circle,#f8f8f8,#8f9499);
+  border:4px solid #1683ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+}
+
+.titulo{
+  text-align:center;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin:14px 0;
+}
+
+.fila{
+  display:grid;
+  grid-template-columns:70px 1fr 1fr 1fr 1fr;
+  gap:6px;
+  margin-bottom:7px;
+}
+
+.fila.dos{
+  grid-template-columns:70px 1fr 1fr;
+}
+
+.piso{
+  background:#111827;
+  color:white;
+  border-radius:8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:13px;
+  font-weight:bold;
+  border:1px solid #555;
+}
 
 .btn{
-  display:block;
-  width:100%;
-  padding:15px;
-  border-radius:14px;
-  text-align:center;
+  min-height:58px;
+  border-radius:8px;
+  background:linear-gradient(#f8f8f8,#b7babd);
+  border:1px solid #555;
   text-decoration:none;
-  color:white;
-  font-size:18px;
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  font-size:28px;
   font-weight:bold;
-  background:#22c55e;
+  box-shadow:inset 0 2px 3px #fff, 0 2px 6px rgba(0,0,0,.25);
 }
 
-.btn.bloqueado{
-  background:#64748b;
+.btn .mini{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff,#9ca3af);
+  border:3px solid #1683ff;
+  font-size:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.bloqueado{
   pointer-events:none;
-  opacity:.55;
+  opacity:.45;
+  filter:grayscale(1);
 }
 
 .footer{
-  margin-top:22px;
+  margin-top:18px;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #555;
+  background:rgba(255,255,255,.32);
+  text-align:center;
   font-size:13px;
-  color:#94a3b8;
+  letter-spacing:1px;
 }
 </style>
 </head>
@@ -90,31 +176,26 @@ h1{margin:8px 0 5px;font-size:32px}
 
 <div class="panel">
 
-  <img src="logo-lxt.png" alt="LXT Seguridad Electrónica" class="logo">
+  <div class="logo">LXT</div>
+  <div class="marca">SEGURIDAD ELECTRÓNICA</div>
 
-  <h1>Timbre QR</h1>
-  <div class="subtitulo">Seleccione el departamento</div>
+  <div id="estado" class="estado">📍 Verificando ubicación...</div>
 
-  <div id="estado">📍 Verificando ubicación...</div>
+  <a class="encargado bloqueado" href="https://1325.3cx.cloud/encargado">
+    <div>
+      <strong>ENCARGADO</strong><br>
+      <span>LLAMAR AL ENCARGADO</span>
+    </div>
+    <div class="call">☎</div>
+  </a>
 
-  <div class="depto">
-    <h2>Departamento 1</h2>
-    <p>TEST PANTALLA</p>
-    <a class="btn bloqueado" href="https://1325.3cx.cloud/testpantalla">
-      📞 Llamar / Mensaje
-    </a>
-  </div>
+  <div class="titulo">SELECCIONE EL DEPARTAMENTO</div>
 
-  <div class="depto">
-    <h2>Departamento 2</h2>
-    <p>PRUEBA CEL 2</p>
-    <a class="btn bloqueado" href="https://1325.3cx.cloud/pruebacel2">
-      📞 Llamar / Mensaje
-    </a>
-  </div>
+  <div id="botonera"></div>
 
   <div class="footer">
-    Sistema de prueba - LXT Seguridad Electrónica
+    SISTEMA DE PORTERO VIRTUAL<br>
+    PROTEGEMOS LO QUE MÁS VALORÁS
   </div>
 
 </div>
@@ -124,64 +205,87 @@ const edificioLat = -34.947151;
 const edificioLon = -58.054534;
 const radioPermitido = 10;
 
-function distanciaMetros(lat1, lon1, lat2, lon2){
-  const R = 6371000;
-  const rad = Math.PI / 180;
-  const dLat = (lat2-lat1) * rad;
-  const dLon = (lon2-lon1) * rad;
+const pisos = [
+  {piso:8, deptos:["A","B"]},
+  {piso:7, deptos:["A","B"]},
+  {piso:6, deptos:["A","B"]},
+  {piso:5, deptos:["A","B","C","D"]},
+  {piso:4, deptos:["A","B","C","D"]},
+  {piso:3, deptos:["A","B","C","D"]},
+  {piso:2, deptos:["A","B","C","D"]},
+  {piso:1, deptos:["A","B","C","D"]}
+];
 
-  const a =
-    Math.sin(dLat/2) ** 2 +
-    Math.cos(lat1*rad) *
-    Math.cos(lat2*rad) *
-    Math.sin(dLon/2) ** 2;
+const contenedor = document.getElementById("botonera");
 
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+pisos.forEach(item=>{
+  const fila = document.createElement("div");
+  fila.className = item.deptos.length === 2 ? "fila dos" : "fila";
+
+  fila.innerHTML = `<div class="piso">PISO ${item.piso}</div>`;
+
+  item.deptos.forEach(d=>{
+    const nombre = `${item.piso}${d}`;
+    const link = `https://1325.3cx.cloud/depto${item.piso}${d.toLowerCase()}`;
+
+    fila.innerHTML += `
+      <a class="btn bloqueado" href="${link}">
+        ${nombre}
+        <span class="mini">☎</span>
+      </a>`;
+  });
+
+  contenedor.appendChild(fila);
+});
+
+function distanciaMetros(lat1,lon1,lat2,lon2){
+  const R=6371000, rad=Math.PI/180;
+  const dLat=(lat2-lat1)*rad;
+  const dLon=(lon2-lon1)*rad;
+  const a=Math.sin(dLat/2)**2+
+    Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
 
-function habilitarBotones(){
-  document.querySelectorAll(".btn").forEach(btn=>{
-    btn.classList.remove("bloqueado");
+function habilitar(){
+  document.querySelectorAll(".bloqueado").forEach(e=>{
+    e.classList.remove("bloqueado");
   });
 }
 
 function validarUbicacion(){
-  const estado = document.getElementById("estado");
+  const estado=document.getElementById("estado");
 
   if(!navigator.geolocation){
-    estado.innerHTML = "❌ Este dispositivo no permite validar ubicación.";
+    estado.innerHTML='<span class="error">❌ Este dispositivo no permite validar ubicación.</span>';
     return;
   }
 
   navigator.geolocation.getCurrentPosition(
-    function(pos){
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      const precision = pos.coords.accuracy;
-      const distancia = distanciaMetros(lat, lon, edificioLat, edificioLon);
+    pos=>{
+      const dist=distanciaMetros(
+        pos.coords.latitude,
+        pos.coords.longitude,
+        edificioLat,
+        edificioLon
+      );
 
-      if(distancia <= radioPermitido){
-        habilitarBotones();
+      if(dist <= radioPermitido){
+        habilitar();
         estado.innerHTML =
-          "✅ Ubicación validada<br>" +
-          "📍 Distancia aproximada: " + distancia.toFixed(1) + " m<br>" +
-          "🎯 Precisión GPS: " + precision.toFixed(1) + " m";
+          `<span class="ok">✅ UBICACIÓN VALIDADA</span><br>
+           Distancia: ${dist.toFixed(1)} m<br>
+           Puede realizar llamadas`;
       }else{
         estado.innerHTML =
-          "❌ Debe encontrarse frente al edificio para utilizar el timbre.<br>" +
-          "📍 Distancia aproximada: " + distancia.toFixed(1) + " m<br>" +
-          "🎯 Precisión GPS: " + precision.toFixed(1) + " m";
+          `<span class="error">❌ Debe estar frente al edificio</span><br>
+           Distancia aproximada: ${dist.toFixed(1)} m`;
       }
     },
-    function(){
-      estado.innerHTML =
-        "❌ Debe permitir el acceso a la ubicación para utilizar el timbre.";
+    ()=>{
+      estado.innerHTML='<span class="error">❌ Debe permitir ubicación para usar el timbre.</span>';
     },
-    {
-      enableHighAccuracy:true,
-      timeout:10000,
-      maximumAge:0
-    }
+    {enableHighAccuracy:true,timeout:10000,maximumAge:0}
   );
 }
 
