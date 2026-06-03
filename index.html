@@ -298,6 +298,26 @@ function validarUbicacion(){
   );
 }
 
+document.getElementById("modoDemo").addEventListener("change", function(){
+
+    if(this.checked){
+
+        habilitar();
+
+        document.getElementById("estado").innerHTML =
+        `<span class="ok">✅ MODO DEMO ACTIVADO</span><br>
+        Simulación de presencia habilitada`;
+
+    }else{
+
+        document.querySelectorAll(".btn, .encargado").forEach(e=>{
+            e.classList.add("bloqueado");
+        });
+
+        validarUbicacion();
+    }
+});
+
 window.onload = validarUbicacion;
 </script>
 
